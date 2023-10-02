@@ -113,7 +113,7 @@ function go() {
       computeds.push(c);
     }
     let i = 0;
-    return suite.add("write ref, read 1000 chain computeds (don't get value)", () => {
+    return suite.add("write ref, don't read 1000 chain computeds", () => {
       v.value = i++;
     });
   });
@@ -130,7 +130,7 @@ function go() {
       computeds.push(c);
     }
     let i = 0;
-    return suite.add("write ref, read 1000 chain computeds (get value)", () => {
+    return suite.add("write ref, read 1000 chain computeds", () => {
       v.value = i++;
       computeds[computeds.length - 1].value
     });
@@ -148,7 +148,7 @@ function go() {
       computeds.push(c);
     }
     let i = 0;
-    return suite.add("write ref, read 1000 chain computeds (don't get value, no dirty)", () => {
+    return suite.add("write ref, don't read 1000 chain computeds (no dirty)", () => {
       i += 2;
       v.value = i;
     });
@@ -166,7 +166,7 @@ function go() {
       computeds.push(c);
     }
     let i = 0;
-    return suite.add("write ref, read 1000 chain computeds (get value, no dirty)", () => {
+    return suite.add("write ref, read 1000 chain computeds (no dirty)", () => {
       i += 2;
       v.value = i;
       computeds[computeds.length - 1].value
