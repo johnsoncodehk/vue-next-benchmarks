@@ -101,22 +101,24 @@ function go() {
     });
   });
 
-  bench(() => {
-    const v = ref(100);
-    const computeds = [];
-    for (let i = 0, n = 1000; i < n; i++) {
-      const c = computed(() => {
-        return (i === 0 ? v.value : 0) * 2
+  for (const num of [1, 10, 100, 1000, 10000]) {
+    bench(() => {
+      const v = ref(100);
+      const computeds = [];
+      for (let i = 0, n = num; i < n; i++) {
+        const c = computed(() => {
+          return (i === 0 ? v.value : 0) * 2
+        });
+        const cv = c.value;
+        computeds.push(c);
+      }
+      let i = 0;
+      return suite.add("write 1 ref, read " + num + " computeds", () => {
+        v.value = i++;
+        computeds.forEach(c => c.value);
       });
-      const cv = c.value;
-      computeds.push(c);
-    }
-    let i = 0;
-    return suite.add("write 1 ref, read 1000 computeds", () => {
-      v.value = i++;
-      computeds.forEach(c => c.value);
     });
-  });
+  }
 
   bench(() => {
     const v = ref(100);
@@ -135,25 +137,7 @@ function go() {
     });
   });
 
-  bench(() => {
-    const v = ref(100);
-    const computeds = [computed(() => v.value + 1)];
-    for (let i = 0, n = 999; i < n; i++) {
-      const c0 = computeds[computeds.length - 1];
-      const c = computed(() => {
-        return c0.value + 1
-      });
-      const cv = c.value;
-      computeds.push(c);
-    }
-    let i = 0;
-    return suite.add("write ref, read 1000 chain computeds", () => {
-      v.value = i++;
-      computeds[computeds.length - 1].value
-    });
-  });
-
-  for (const num of [5, 10, 100, 1000]) {
+  for (const num of [1, 5, 10, 100, 1000]) {
     bench(() => {
       const v = ref(100);
       const computedsList = [];
